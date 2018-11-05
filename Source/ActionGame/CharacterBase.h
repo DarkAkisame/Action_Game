@@ -8,6 +8,8 @@
 #include "AbilitySystemComponent.h"
 #include "CharacterBase.generated.h"
 
+
+
 class UAttributeSetBase;
 
 UCLASS()
@@ -73,10 +75,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterBase")
 		FGameplayTag FullHealthTag;
 
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+		void HitStun(float StundDuration);
+
 protected:
 	bool isDead;
 	uint8 TeamID;
 
 	void AutoDeterminTeamIDbyControllerType();
 	void Dead();
+
+	void DisableInputControl();
+	void EnableInputControl();
+
+	FTimerHandle StunTimeHandle;
 };

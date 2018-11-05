@@ -120,7 +120,7 @@ void ACharacterBase::AutoDeterminTeamIDbyControllerType()
 	}
 }
 
-void ACharacterBase::Dead()
+void ACharacterBase::DisableInputControl()
 {
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (PC)
@@ -134,3 +134,32 @@ void ACharacterBase::Dead()
 	}
 }
 
+void ACharacterBase::EnableInputControl()
+{
+	
+	if (!isDead)
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		if (PC)
+		{
+			PC->EnableInput(PC);
+		}
+		AAIController* AIC = Cast<AAIController>(GetController());
+		if (AIC)
+		{
+			AIC->GetBrainComponent()->RestartLogic();
+		}
+	}
+	
+}
+
+void ACharacterBase::Dead()
+{
+	DisableInputControl();
+}
+
+void ACharacterBase::HitStun(float StundDuration)
+{
+	DisableInputControl();
+	GetWorldTimerManager().SetTimer(StunTimeHandle, this, &ACharacterBase::EnableInputControl, StundDuration, false);
+}
