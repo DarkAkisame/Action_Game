@@ -11,6 +11,7 @@
 
 
 class UAttributeSetBase;
+class UGameplayAbilityBase;
 
 UCLASS()
 class ACTIONGAME_API ACharacterBase : public ACharacter, public IAbilitySystemInterface
@@ -38,8 +39,13 @@ public:
 		UAttributeSetBase* AttributeSetBaseComp;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const;
 
+
+	// AquireABility
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		void AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire);
+	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
+		void AquireAbilies(TArray<TSubclassOf<UGameplayAbility>> AbilityToAquire);
+
 	///health
 	UFUNCTION()
 		void OnHealthChanged(float Health, float MaxHealth);
@@ -89,4 +95,6 @@ protected:
 	void EnableInputControl();
 
 	FTimerHandle StunTimeHandle;
+
+	void AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> AbilityToAdd);
 };

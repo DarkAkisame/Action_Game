@@ -4,8 +4,9 @@
 #include "AttributeSetBase.h"
 #include "GameFramework/PlayerController.h"
 #include "AIController.h"
+#include "GameplayAbilityBase.h"
 #include "BrainComponent.h"
-
+#include "PlayerControllerBase.h"
 // Sets default values
 ACharacterBase::ACharacterBase()
 {
@@ -67,6 +68,23 @@ void ACharacterBase::AquireAbility(TSubclassOf<UGameplayAbility> AbilityToAquire
 		AbilitySystemComp->InitAbilityActorInfo(this, this);
 	}
 }
+
+void ACharacterBase::AquireAbilies(TArray<TSubclassOf<UGameplayAbility>> AbilityToAquire)
+{
+	for (TSubclassOf<UGameplayAbility> AbilityItme : AbilityToAquire)
+	{
+		AquireAbility(AbilityItme);
+		if (AbilityItme->IsChildOf(UGameplayAbilityBase::StaticClass()))
+		{
+			TSubclassOf<UGameplayAbilityBase> AbilityBaseClass = *AbilityItme;
+			if (AbilityBaseClass != nullptr)
+			{
+				AddAbilityToUI(AbilityBaseClass);
+			}
+		}
+	}
+}
+
 // health
 void ACharacterBase::OnHealthChanged(float Health, float MaxHealth)
 {
@@ -151,6 +169,20 @@ void ACharacterBase::EnableInputControl()
 		}
 	}
 	
+}
+
+void ACharacterBase::AddAbilityToUI(TSubclassOf<UGameplayAbilityBase> AbilityToAdd)
+{
+	APlayerControllerBase* PlayControlerBase = Cast<APlayerControllerBase>(GetController());
+	if (PlayControlerBase)
+	{
+		UGameplayAbilityBase* AbilityInstance = AbilityToAdd.Get()->GetDefaultObject<UGameplayAbilityBase>();
+		if (AbilityInstance)
+		{
+			FGameplayAbilityInfo AbilityInfo = AbilityInstance->GetAbilityInfo();
+			PlayControlerBase->AddAbilityToUI(AbilityInfo);
+		}
+	}
 }
 
 void ACharacterBase::Dead()
