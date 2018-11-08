@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
 #include "Materials/MaterialInstance.h"
+#include "AbilityTypes.h"
 #include "GameplayAbilityBase.generated.h"
 
 /**
@@ -19,7 +20,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityBase")
 		UMaterialInstance* UIMaterial;
 
-
+	UFUNCTION(BlueprintCallable, Category = "AbilityBase")
+		FGameplayAbilityInfo GetAbilityInfo();
 	
 	
 	
