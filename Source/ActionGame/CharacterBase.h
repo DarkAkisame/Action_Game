@@ -69,6 +69,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CharacterBase")
 		bool isOtherHostile(ACharacterBase* Other);
 	uint8 getTeamID()const;
+	bool GetISDead()const;
 
 
 	//Tag's

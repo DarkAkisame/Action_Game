@@ -4,6 +4,7 @@
 #include "AttributeSetBase.h"
 #include "GameFramework/PlayerController.h"
 #include "AIController.h"
+#include "TimerManager.h"
 #include "GameplayAbilityBase.h"
 #include "BrainComponent.h"
 #include "PlayerControllerBase.h"
@@ -117,6 +118,11 @@ bool ACharacterBase::isOtherHostile(ACharacterBase* Other)
 uint8 ACharacterBase::getTeamID() const
 {
 	return TeamID;
+}
+
+bool ACharacterBase::GetISDead() const
+{
+	return isDead;
 }
 
 void ACharacterBase::AddGameplayTag(FGameplayTag& TagToAdd)
