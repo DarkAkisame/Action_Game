@@ -68,6 +68,7 @@ void AGm_ActionBase::CheckWaveSate()
 		{
 			continue;
 		}
+		//TODO is AI Character alive still if so set bIsAnybotAlive to true and brake
 	}
 
 	if (!bIsAnybotAlive)
